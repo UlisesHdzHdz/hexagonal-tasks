@@ -1,23 +1,39 @@
-import { config as dotEnvConfig } from "dotenv";
-dotEnvConfig();
-
 import bodyParser from "body-parser";
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 
-import { config } from "./config";
-import { healthRouter } from "./health/health-router";
+import BookController from "./book/application/BookController";
+import BookService from "./book/application/BookService";
+import BookRepositoryImpl from "./book/infrastructure/BookRepositoryImpl";
+import BookRoutes from "./book/infrastructure/BookRoutes";
+import { Database } from "./config/database";
 
-function boostrap() {
-  const app = express();
+// Crea una instancia de la aplicación Express
+const app = express();
+const PORT = 3000;
 
-  app.use(bodyParser.json());
-  app.use("/health", healthRouter);
+// Middleware para el manejo de datos en formato JSON
+app.use(bodyParser.json());
 
-  const { port } = config.server;
+// Crea una instancia de la base de datos
+const database = new Database();
+const pool = database.getPool();
 
-  app.listen(port, () => {
-    console.log(`[APP] - Starting application on port ${port}`);
-  });
-}
+// Crea las instancias de los componentes necesarios
+const bookRepository = new BookRepositoryImpl(pool);
+const bookService = new BookService(bookRepository);
+const bookController = new BookController(bookService);
 
-boostrap();
+// Rutas relacionadas con los libros
+const bookRoutes = new BookRoutes(bookController);
+app.use("/books", bookRoutes.getRouter());
+
+// Middleware para manejar errores
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error("Error:", err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
+// Inicia el servidor
+app.listen(PORT, () => {
+  console.log(`[APP] - Starting application on port ${PORT}`);
+});
