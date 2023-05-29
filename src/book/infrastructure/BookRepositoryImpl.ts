@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 
 import { Book } from "../domain/Book";
-import BookRepository from "./BookRepository";
+import BookRepository from "../domain/BookRepository";
 
 class BookRepositoryImpl implements BookRepository {
   private pool: Pool;

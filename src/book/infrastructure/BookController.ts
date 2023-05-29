@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 
-// import Book from '../domain/Book';
+import BookService from "../application/BookService";
 import { Book } from "../domain/Book";
-import BookService from "./BookService";
 
 class BookController {
   private bookService: BookService;

@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import BookController from "../application/BookController";
+import BookController from "./BookController";
 
 class BookRoutes {
   private router: Router;

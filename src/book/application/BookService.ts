@@ -1,7 +1,5 @@
-// import Book from '../domain/Book';
 import { Book } from "../domain/Book";
-// import BookRepository from '../domain/BookRepository';
-import BookRepository from "../infrastructure/BookRepository";
+import BookRepository from "../domain/BookRepository";
 
 class BookService {
   private bookRepository: BookRepository;
