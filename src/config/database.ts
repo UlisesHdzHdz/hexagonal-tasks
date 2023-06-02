@@ -6,8 +6,8 @@ class Database {
   constructor() {
     this.pool = new Pool({
       user: "postgres",
-      host: "localhost",
-      password: "root",
+      host: "3.82.68.223",
+      password: "ulises209",
       database: "librero",
       port: 5432,
     });
