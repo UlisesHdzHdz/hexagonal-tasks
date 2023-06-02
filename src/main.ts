@@ -41,7 +41,7 @@ const reviewRoutes = new ReviewRoutes(reviewController);
 app.use("/books", bookRoutes.getRouter());
 app.use("/reviews", reviewRoutes.getRouter());
 
-app.get("/server1", (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("estamos en el server A ");
 });
 
